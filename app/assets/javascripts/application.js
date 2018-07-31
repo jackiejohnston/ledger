@@ -16,4 +16,13 @@
 //= require jquery3
 //= require popper
 //= require bootstrap-sprockets
+//= require select2-full
 //= require_tree .
+
+$(document).ready(function() {
+  $('select#payee').select2({
+    theme: "bootstrap",
+    placeholder: 'Payee',
+    tags: true
+  });
+});

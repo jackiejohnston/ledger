@@ -15,7 +15,7 @@
   <div class="form-group row">
     <%= form.label :payee, class: "col-sm-2 col-form-label" %>
     <div class="col-sm-10">
-      <%= form.text_field :payee, class: "form-control" %>
+      <%= form.select :payee, @payees, class: "custom-select" %>
     </div>
   </div>
 

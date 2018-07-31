@@ -1,6 +1,7 @@
 class TransactionsController < ApplicationController
   def index
     @transactions = Transaction.all
+    @payees = Transaction.distinct.pluck(:payee).sort
   end
 
   def create
