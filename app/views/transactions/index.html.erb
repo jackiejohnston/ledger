@@ -1,0 +1,80 @@
+<h1 class="my-4">Ledger</h1>
+
+
+<h2 class="h4">Add Transaction</h2>
+
+<%= form_with(controller: :transaction, url: :create_transaction_path, local: true) do |form| %>
+
+  <div class="form-group row">
+    <%= form.label :posted_on, class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-10">
+      <%= form.text_field :posted_on, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :payee, class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-10">
+      <%= form.text_field :payee, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :description, class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-10">
+      <%= form.text_field :description, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :category, class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-10">
+      <%= form.text_field :category, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :amount, class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-9">
+      <%= form.text_field :amount, class: "form-control" %>
+    </div>
+    <div class="col-sm-1">
+      <div class="form-check form-check-inline">
+        <%= form.check_box :deposit, class: "form-check-input" %>
+        <%= form.label :deposit, class: "form-check-label" %>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col">
+      <%= form.submit "Add", class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>
+
+
+<h2 class="h4 pt-4">Transactions</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Payee</th>
+      <th>Description</th>
+      <th>Category</th>
+      <th>Amount</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @transactions.each do |transaction| %>
+      <tr>
+        <td><%= transaction.posted_on.strftime("%m/%d/%Y") %></td>
+        <td><%= transaction.payee %></td>
+        <td><%= transaction.description %></td>
+        <td><%= transaction.category %></td>
+        <td><%= number_to_currency(transaction.amount) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
