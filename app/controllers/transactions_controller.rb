@@ -24,7 +24,7 @@ class TransactionsController < ApplicationController
 
   private
     def transaction_params
-      params.permit(:posted_on, :payee, :description, :category, :amount, :deposit)
+      params.permit(:posted_on, :payee, :description, :category, :amount)
     end
 
     def http_basic_authenticate
