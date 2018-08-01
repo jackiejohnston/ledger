@@ -1,7 +1,11 @@
 class TransactionsController < ApplicationController
+
+  http_basic_authenticate_with name: ENV["AUTH_NAME"], password: ENV["AUTH_PASSWORD"]
+
   def index
     @transactions = Transaction.all
     @payees = Transaction.distinct.pluck(:payee).sort
+    @categories = Transaction.distinct.pluck(:category).sort
   end
 
   def create

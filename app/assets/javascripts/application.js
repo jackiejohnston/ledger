@@ -21,8 +21,11 @@
 
 $(document).ready(function() {
   $('select#payee').select2({
-    theme: "bootstrap",
     placeholder: 'Payee',
+    tags: true
+  });
+  $('select#category').select2({
+    placeholder: 'Category',
     tags: true
   });
 });
