@@ -1,6 +1,6 @@
 class TransactionsController < ApplicationController
 
-  http_basic_authenticate_with name: ENV["AUTH_NAME"], password: ENV["AUTH_PASSWORD"]
+  before_action :http_basic_authenticate
 
   def index
     @transactions = Transaction.all
@@ -26,4 +26,13 @@ class TransactionsController < ApplicationController
     def transaction_params
       params.permit(:posted_on, :payee, :description, :category, :amount, :deposit)
     end
+
+    def http_basic_authenticate
+      if Rails.env.production?
+        authenticate_or_request_with_http_basic do |name, password|
+          name == ENV["AUTH_NAME"] && password == ENV["AUTH_PASSWORD"]
+        end
+      end
+    end
+
 end
