@@ -1,57 +1,4 @@
-<h1 class="my-4">Ledger</h1>
-
-
-<h2 class="h4">Add Transaction</h2>
-
-<%= form_with(controller: :transaction, url: :create_transaction_path, local: true) do |form| %>
-
-  <div class="form-group row">
-    <%= form.label :posted_on, class: "col-sm-2 col-form-label" %>
-    <div class="col-sm-10">
-      <%= form.date_field :posted_on, class: "form-control", value: Date.today %>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <%= form.label :payee, class: "col-sm-2 col-form-label" %>
-    <div class="col-sm-10">
-      <%= form.select :payee, @payees, class: "custom-select" %>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <%= form.label :description, class: "col-sm-2 col-form-label" %>
-    <div class="col-sm-10">
-      <%= form.text_field :description, class: "form-control" %>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <%= form.label :category, class: "col-sm-2 col-form-label" %>
-    <div class="col-sm-10">
-      <%= form.select :category, @categories, class: "custom-select w-100" %>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <%= form.label :amount, class: "col-sm-2 col-form-label" %>
-    <div class="col-sm-9">
-      <%= form.text_field :amount, class: "form-control" %>
-    </div>
-    <div class="col-sm-1">
-      <div class="form-check form-check-inline">
-        <%= form.check_box :deposit, class: "form-check-input" %>
-        <%= form.label :deposit, class: "form-check-label" %>
-      </div>
-    </div>
-  </div>
-  <div class="form-group row">
-    <div class="col">
-      <%= form.submit "Add", class: "btn btn-primary" %>
-    </div>
-  </div>
-<% end %>
-
+<h1 class="my-4 text-center">My Ledger</h1>
 
 <h2 class="h4 pt-4">Transactions</h2>
 
@@ -60,20 +7,46 @@
     <tr>
       <th>Date</th>
       <th>Payee</th>
-      <th>Description</th>
       <th>Category</th>
-      <th>Amount</th>
+      <th class="text-right">Amount</th>
+      <th>&nbsp;</th>
     </tr>
   </thead>
 
   <tbody>
+
+    <%= form_with(controller: :transaction, url: :create_transaction_path, local: true) do |form| %>
+      <tr>
+        <td>
+          <%= form.date_field :posted_on, class: "form-control", value: Date.today %>
+        </td>
+        <td>
+          <%= form.select :payee, @payees, class: "custom-select" %>
+        </td>
+        <td>
+          <%= form.select :category, @categories, class: "custom-select" %>
+        </td>
+        <td>
+          <%= form.text_field :amount, class: "form-control", placeholder: "Amount" %>
+        </td>
+        <td rowspan="2" class="align-middle">
+          <%= form.submit "Add", class: "btn btn-primary" %>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4">
+          <%= form.text_field :description, class: "form-control", placeholder: "Notes" %>
+        </td>
+      </tr>
+    <% end %>
+
     <% @transactions.each do |transaction| %>
       <tr>
         <td><%= transaction.posted_on.strftime("%m/%d/%Y") %></td>
         <td><%= transaction.payee %></td>
-        <td><%= transaction.description %></td>
         <td><%= transaction.category %></td>
-        <td><%= number_to_currency(transaction.amount) %></td>
+        <td class="text-right"><%= number_to_currency(transaction.amount) %></td>
+        <td>&nbsp;</td>
       </tr>
     <% end %>
   </tbody>
