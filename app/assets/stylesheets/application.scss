@@ -4,4 +4,10 @@
 @import "select2-bootstrap";
 @import "bootstrap";
 
-.select2-selection { height: calc(2.25rem + 2px) !important;}
+.select2-selection { height: calc(2.25rem + 2px) !important; }
+select { visibility: hidden; }
+.select2-selection__placeholder {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #6c757d !important;
+}

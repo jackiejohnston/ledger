@@ -20,16 +20,18 @@
 //= require_tree .
 
 $(document).ready(function() {
-  $('select#payee').select2({
+  var payeeSelect = $('select#payee').select2({
     width: '100%',
     theme: "bootstrap",
     placeholder: 'Payee',
     tags: true
   });
-  $('select#category').select2({
+  var categorySelect = $('select#category').select2({
     width: '100%',
     theme: "bootstrap",
     placeholder: 'Category',
     tags: true
   });
+  payeeSelect.val([' ']).trigger("change");
+  categorySelect.val([' ']).trigger("change");
 });
