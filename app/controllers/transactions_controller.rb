@@ -3,9 +3,9 @@ class TransactionsController < ApplicationController
   before_action :http_basic_authenticate
 
   def index
-    @transactions = Transaction.all
-    @payees = Transaction.distinct.pluck(:payee)
-    @categories = Transaction.distinct.pluck(:category)
+    @transactions = Transaction.all.sort_by(&:posted_on).reverse
+    @payees = Transaction.distinct.pluck(:payee).sort
+    @categories = Transaction.distinct.pluck(:category).sort
   end
 
   def create
