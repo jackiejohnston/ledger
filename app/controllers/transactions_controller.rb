@@ -4,8 +4,8 @@ class TransactionsController < ApplicationController
 
   def index
     @transactions = Transaction.all
-    @payees = Transaction.distinct.pluck(:payee).sort
-    @categories = Transaction.distinct.pluck(:category).sort
+    @payees = Transaction.distinct.pluck(:payee)
+    @categories = Transaction.distinct.pluck(:category)
   end
 
   def create
