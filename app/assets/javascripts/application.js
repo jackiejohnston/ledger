@@ -21,10 +21,14 @@
 
 $(document).ready(function() {
   $('select#payee').select2({
+    width: '100%',
+    theme: "bootstrap",
     placeholder: 'Payee',
     tags: true
   });
   $('select#category').select2({
+    width: '100%',
+    theme: "bootstrap",
     placeholder: 'Category',
     tags: true
   });

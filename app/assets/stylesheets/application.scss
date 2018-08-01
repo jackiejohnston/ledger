@@ -4,8 +4,4 @@
 @import "select2-bootstrap";
 @import "bootstrap";
 
-.select2 {
-  width: 100% !important;
-  height: calc(2.25rem + 2px) !important;
-  border-color: #ced4da !important;
-}
+.select2-selection { height: calc(2.25rem + 2px) !important;}
