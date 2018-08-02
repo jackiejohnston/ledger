@@ -3,12 +3,12 @@
 <h2 class="h4 pt-4">Transactions</h2>
 
 <table class="table">
-  <thead>
+  <thead class="thead-dark">
     <tr>
       <th>Date</th>
       <th>Payee</th>
       <th>Category</th>
-      <th class="text-right">Amount</th>
+      <th>Amount</th>
       <th>&nbsp;</th>
     </tr>
   </thead>
@@ -16,7 +16,7 @@
   <tbody>
 
     <%= form_with(controller: :transaction, url: :create_transaction_path, local: true) do |form| %>
-      <tr>
+      <tr class="table-dark">
         <td>
           <%= form.date_field :posted_on, class: "form-control", value: Date.today %>
         </td>
@@ -33,8 +33,8 @@
           <%= form.submit "Add", class: "btn btn-primary" %>
         </td>
       </tr>
-      <tr>
-        <td colspan="4">
+      <tr class="table-dark">
+        <td colspan="4" class="border-top-0 pt-0">
           <%= form.text_field :description, class: "form-control", placeholder: "Notes" %>
         </td>
       </tr>
