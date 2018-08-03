@@ -46,7 +46,9 @@
         <td><%= transaction.payee %></td>
         <td><%= transaction.category %></td>
         <td class="text-right"><%= number_to_currency(transaction.amount) %></td>
-        <td>&nbsp;</td>
+        <td>
+        <%= link_to "Delete", transaction, method: :delete, data: { confirm: "Are you sure?" } %>
+        </td>
       </tr>
     <% end %>
   </tbody>
