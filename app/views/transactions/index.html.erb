@@ -3,10 +3,10 @@
 
 <div class="row">
   <div class="col-6">
-    <%= column_chart({"Deposits" => Transaction.where("amount > 0").sum(:amount), "Withdrawals" => -1 * Transaction.where("amount < 0").sum(:amount)}, prefix: "$") %>
+    <%= column_chart({"Deposits" => Transaction.where("amount > 0").sum(:amount), "Withdrawals" => -1 * Transaction.where("amount < 0").sum(:amount)}, prefix: "$", thousands: ",") %>
   </div>
   <div class="col-6">
-    <%= pie_chart Transaction.where("amount < 0").group(:category).sum(:amount), prefix: "$" %>
+    <%= pie_chart Transaction.where("amount < 0").group(:category).sum(:amount), prefix: "$", thousands: "," %>
   </div>
 </div>
 
