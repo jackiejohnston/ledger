@@ -1,11 +1,19 @@
 <h1 class="my-4 text-center">My Ledger</h1>
 
+
+<div class="row">
+  <div class="col-6">
+    <%= column_chart({"Deposits" => Transaction.where("amount > 0").sum(:amount), "Withdrawals" => -1 * Transaction.where("amount < 0").sum(:amount)}, prefix: "$") %>
+  </div>
+  <div class="col-6">
+    <%= pie_chart Transaction.where("amount > 0").group(:category).sum(:amount), prefix: "$" %>
+  </div>
+</div>
+
+
 <h2 class="h4 pt-4">Transactions</h2>
 
-
-<%= pie_chart Transaction.where("category != 'salary'").group(:category).sum(:amount), prefix: "$" %>
-
-<table class="table mt-4">
+<table class="table">
   <thead class="thead-dark">
     <tr>
       <th>Date</th>
