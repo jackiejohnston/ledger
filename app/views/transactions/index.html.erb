@@ -2,7 +2,10 @@
 
 <h2 class="h4 pt-4">Transactions</h2>
 
-<table class="table">
+
+<%= bar_chart Transaction.group(:category).sum(:amount), colors: ["#c6c8ca"], label: "Spending by Category", prefix: "$" %>
+
+<table class="table mt-4">
   <thead class="thead-dark">
     <tr>
       <th>Date</th>

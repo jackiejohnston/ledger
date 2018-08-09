@@ -17,6 +17,8 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require select2-full
+//= require Chart.bundle
+//= require chartkick
 //= require_tree .
 
 $(document).ready(function() {

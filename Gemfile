@@ -37,6 +37,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'bootstrap', '~> 4.1.3'
 gem 'jquery-rails'
 gem 'select2-rails'
+gem 'chartkick'
 
 group :production do
   # Use postgres as the database for Active Record
