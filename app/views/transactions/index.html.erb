@@ -1,11 +1,24 @@
-<h1 class="my-4 text-center">My Ledger</h1>
+<h1 class="my-4 text-center">Ledger <small>for <%= @month_display %></small></h1>
+<div class="col-sm-6 offset-sm-3 col-lg-4 offset-lg-4 col-xl-2 offset-xl-5 mb-4">
+  <div class="dropdown">
+    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Select Month
+    </a>
+
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+      <% @transaction_months.each do |month, transactions| %>
+        <a class="dropdown-item" href="<%= month.strftime('/%Y/%m') %>"><%= month.strftime('%B %Y') %></a>
+      <% end %>
+    </div>
+  </div>
+</div>
 
 
 <div class="row">
-  <div class="col-6">
+  <div class="col-sm-6">
     <%= column_chart({"Deposits" => Transaction.where("amount > 0").sum(:amount), "Withdrawals" => -1 * Transaction.where("amount < 0").sum(:amount)}, prefix: "$", thousands: ",") %>
   </div>
-  <div class="col-6">
+  <div class="col-sm-6">
     <%= pie_chart Transaction.where("amount < 0").group(:category).sum(:amount), prefix: "$", thousands: "," %>
   </div>
 </div>
@@ -51,7 +64,7 @@
       </tr>
     <% end %>
 
-    <% @transactions.each do |transaction| %>
+    <% @filtered_transactions.each do |transaction| %>
       <tr>
         <td><%= transaction.posted_on.strftime("%m/%d/%Y") %></td>
         <td><%= transaction.payee %></td>
