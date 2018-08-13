@@ -1,17 +1,4 @@
-<h1 class="my-4 text-center">Ledger <small>for <%= @month_display %></small></h1>
-<div class="col-sm-6 offset-sm-3 col-lg-4 offset-lg-4 col-xl-2 offset-xl-5 mb-4">
-  <div class="dropdown">
-    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Select Month
-    </a>
-
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-      <% @transaction_months.each do |month, transactions| %>
-        <a class="dropdown-item" href="<%= month.strftime('/%Y/%m') %>"><%= month.strftime('%B %Y') %></a>
-      <% end %>
-    </div>
-  </div>
-</div>
+<h1 class="my-4 text-center">Ledger</h1>
 
 
 <div class="row">
@@ -42,7 +29,7 @@
     <%= form_with(controller: :transaction, url: :create_transaction_path, local: true) do |form| %>
       <tr class="table-dark">
         <td>
-          <%= form.date_field :posted_on, class: "form-control", value: Date.today %>
+          <%= form.date_field :posted_on, class: "form-control datepicker", value: Date.today %>
         </td>
         <td>
           <%= form.select :payee, @payees, class: "custom-select" %>
@@ -64,12 +51,12 @@
       </tr>
     <% end %>
 
-    <% @filtered_transactions.each do |transaction| %>
+    <% @transactions.each do |transaction| %>
       <tr>
-        <td><%= transaction.posted_on.strftime("%m/%d/%Y") %></td>
-        <td><%= transaction.payee %></td>
-        <td><%= transaction.category %></td>
-        <td class="text-right"><%= number_to_currency(transaction.amount) %></td>
+        <td><%= best_in_place transaction, :posted_on, :as => :date, display_with: Proc.new { |el| el.strftime("%m/%d/%Y") } %></td>
+        <td><%= best_in_place transaction, :payee %></td>
+        <td><%= best_in_place transaction, :category %></td>
+        <td class="text-right"><%= best_in_place transaction, :amount, display_with: :number_to_currency %></td>
         <td>
         <%= link_to "Delete", transaction, method: :delete, data: { confirm: "Are you sure?" } %>
         </td>

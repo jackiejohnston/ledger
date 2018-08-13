@@ -3,6 +3,9 @@
 @import "select2";
 @import "select2-bootstrap";
 @import "bootstrap";
+@import "jquery-ui/core";
+@import "jquery-ui/theme";
+@import "jquery-ui/datepicker";
 
 .select2-selection { height: calc(2.25rem + 2px) !important; }
 select { visibility: hidden; }

@@ -19,6 +19,9 @@
 //= require select2-full
 //= require Chart.bundle
 //= require chartkick
+//= require best_in_place
+//= require jquery-ui/datepicker
+//= require best_in_place.jquery-ui
 //= require_tree .
 
 $(document).ready(function() {
@@ -36,4 +39,9 @@ $(document).ready(function() {
   });
   payeeSelect.val([' ']).trigger("change");
   categorySelect.val([' ']).trigger("change");
+
+  $('.datepicker').datepicker({dateFormat: 'yy-mm-dd'});
+
+  /* Activating Best In Place */
+  jQuery(".best_in_place").best_in_place();
 });
