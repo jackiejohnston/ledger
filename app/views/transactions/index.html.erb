@@ -46,7 +46,7 @@
       </tr>
       <tr class="table-dark">
         <td colspan="4" class="border-top-0 pt-0">
-          <%= form.text_field :description, class: "form-control", placeholder: "Notes" %>
+          <%= form.text_field :description, class: "form-control", placeholder: "Note" %>
         </td>
       </tr>
     <% end %>
@@ -59,7 +59,11 @@
         <td class="text-right"><%= best_in_place transaction, :amount, display_with: :number_to_currency %></td>
         <td>
         <%= link_to "Delete", transaction, method: :delete, data: { confirm: "Are you sure?" } %>
+        <button class="btn btn-link p-0 mb-1 ml-2" type="button" data-toggle="collapse" data-target="#collapse<%= transaction.id %>" aria-expanded="false" aria-controls="collapse<%= transaction.id %>">Details</button>
         </td>
+      </tr>
+      <tr class="collapse" id="collapse<%= transaction.id %>">
+        <td colspan="5">Note: <%= best_in_place transaction, :description %></td>
       </tr>
     <% end %>
   </tbody>
