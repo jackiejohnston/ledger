@@ -40,6 +40,7 @@ gem 'select2-rails'
 gem 'chartkick'
 gem 'jquery-ui-rails', '5.0.5'
 gem 'best_in_place', '~> 3.0.1'
+gem 'aws-sdk', '~> 2'
 
 group :production do
   # Use postgres as the database for Active Record

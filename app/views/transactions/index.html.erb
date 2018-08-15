@@ -26,27 +26,30 @@
 
   <tbody>
 
-    <%= form_with(controller: :transaction, url: :create_transaction_path, local: true) do |form| %>
+    <%= form_with(controller: :transaction, url: :create_transaction_path, local: true, html: { class: 'directUpload', data: { 'form-data' => (@s3_direct_post.fields), 'url' => @s3_direct_post.url, 'host' => URI.parse(@s3_direct_post.url).host } }) do |form| %>
       <tr class="table-dark">
-        <td>
+        <td class="field">
           <%= form.date_field :posted_on, class: "form-control datepicker", value: Date.today %>
         </td>
-        <td>
+        <td class="field">
           <%= form.select :payee, @payees, class: "custom-select" %>
         </td>
-        <td>
+        <td class="field">
           <%= form.select :category, @categories, class: "custom-select" %>
         </td>
-        <td>
+        <td class="field">
           <%= form.text_field :amount, class: "form-control", placeholder: "Amount" %>
         </td>
         <td rowspan="2" class="align-middle">
-          <%= form.submit "Add", class: "btn btn-primary" %>
+          <%= form.submit "Add", class: "btn btn-primary", id: "submit" %>
         </td>
       </tr>
       <tr class="table-dark">
-        <td colspan="4" class="border-top-0 pt-0">
+        <td colspan="2" class="border-top-0 pt-0 field">
           <%= form.text_field :description, class: "form-control", placeholder: "Note" %>
+        </td>
+        <td colspan="2" class="border-top-0 pt-0 field">
+          <input type="file" id="receipt" name="receipt" class="form-control-file">
         </td>
       </tr>
     <% end %>
@@ -63,7 +66,7 @@
         </td>
       </tr>
       <tr class="collapse" id="collapse<%= transaction.id %>">
-        <td colspan="5">Note: <%= best_in_place transaction, :description %></td>
+        <td colspan="5">Note: <%= best_in_place transaction, :description %><br><img class="mw-100" src="<%= transaction.receipt %>"></td>
       </tr>
     <% end %>
   </tbody>

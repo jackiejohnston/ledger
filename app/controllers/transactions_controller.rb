@@ -1,6 +1,7 @@
 class TransactionsController < ApplicationController
 
   before_action :http_basic_authenticate
+  before_action :set_s3_direct_post, only: [:index, :create, :update]
 
   def index
     # puts ">>>>>>>>>>>>>>>> year #{params[:year]}"
@@ -66,14 +67,14 @@ class TransactionsController < ApplicationController
 
   private
     def transaction_params
-      params.permit(:posted_on, :payee, :description, :category, :amount)
+      params.permit(:posted_on, :payee, :description, :category, :amount, :receipt)
     end
 
     def transaction_update_params
       if !params[:transaction][:posted_on].nil?
         params[:transaction][:posted_on] = Date.strptime(params[:transaction][:posted_on], "%m/%d/%Y").to_s
       end
-      params.require(:transaction).permit(:posted_on, :payee, :description, :category, :amount)
+      params.require(:transaction).permit(:posted_on, :payee, :description, :category, :amount, :receipt)
     end
 
     def http_basic_authenticate
@@ -82,6 +83,10 @@ class TransactionsController < ApplicationController
           name == ENV["AUTH_NAME"] && password == ENV["AUTH_PASSWORD"]
         end
       end
+    end
+
+    def set_s3_direct_post
+      @s3_direct_post = S3_BUCKET.presigned_post(key: "#{SecureRandom.uuid}/${filename}", success_action_status: '201', acl: 'public-read')
     end
 
 end

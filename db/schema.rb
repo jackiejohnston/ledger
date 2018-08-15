@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_01_202018) do
+ActiveRecord::Schema.define(version: 2018_08_15_163045) do
 
   create_table "transactions", force: :cascade do |t|
     t.date "posted_on", null: false
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2018_08_01_202018) do
     t.decimal "amount", precision: 8, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "receipt"
     t.index ["category"], name: "index_transactions_on_category"
     t.index ["payee"], name: "index_transactions_on_payee"
     t.index ["posted_on"], name: "index_transactions_on_posted_on"
