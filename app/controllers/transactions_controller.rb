@@ -4,16 +4,12 @@ class TransactionsController < ApplicationController
   before_action :set_s3_direct_post, only: [:index, :create, :update]
 
   def index
-    # puts ">>>>>>>>>>>>>>>> year #{params[:year]}"
-    # puts ">>>>>>>>>>>>>>>> month #{params[:month]}"
-    # @transaction_months = Transaction.all.sort_by(&:posted_on).reverse.group_by {|t| t.posted_on.beginning_of_month }
-    # first_of_month = Date.current.beginning_of_month
-    # last_of_month = Date.current.end_of_month
-    # @month_url = Date.current.strftime('/%Y/%m')
-    # @month_display = Date.current.strftime('%B %Y')
-    # puts ">>>>>>>>>>>>>>>>> month_url: #{@month_url}"
-    # @filtered_transactions = Transaction.where("posted_on BETWEEN ? AND ?", first_of_month, last_of_month).sort_by(&:posted_on).reverse
-    @transactions = Transaction.all.sort_by(&:posted_on).reverse
+    @transaction_months = Transaction.all.sort_by(&:posted_on).reverse.group_by {|t| t.posted_on.beginning_of_month }
+    @first_of_month = params[:year].present? && params[:month].present? ? Date.parse("#{params[:year]}-#{params[:month]}-01") : Date.current.beginning_of_month
+    @last_of_month = @first_of_month.end_of_month
+    @month_url = @first_of_month.strftime("/%Y/%m")
+    @month_display = @first_of_month.strftime("%B %Y")
+    @filtered_transactions = Transaction.where("posted_on BETWEEN ? AND ?", @first_of_month, @last_of_month).sort_by(&:posted_on).reverse
     @payees = Transaction.distinct.pluck(:payee).sort
     @categories = Transaction.distinct.pluck(:category).sort
 
