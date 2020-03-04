@@ -96,35 +96,37 @@
           <% sum += transaction.amount %>
         <% end %>
       <% end %>
-      <thead class="thead-dark">
-        <tr class="small">
-          <th><button class="btn btn-sm p-0 m-0 btn-link text-light" type="button" data-toggle="collapse" data-target="#<%= category %>" aria-expanded="false" aria-controls="<%= category %>"><%= category.upcase %></button></th>
-          <th></th>
-          <th></th>
-          <th class="text-right">TOTAL: <%= number_to_currency(sum * -1) %></th>
-          <th class="text-right"><% unless @year_display == Date.today.year %>MONTHLY AVERAGE: <%= number_to_currency((sum * -1)/12) %><% end %></th>
-        </tr>
-      </thead>
+      <% if sum > 0.00 %>
+        <thead class="thead-dark">
+          <tr class="small">
+            <th><button class="btn btn-sm p-0 m-0 btn-link text-light" type="button" data-toggle="collapse" data-target="#<%= category.parameterize %>" aria-expanded="false" aria-controls="<%= category.parameterize %>"><%= category.upcase %></button></th>
+            <th></th>
+            <th></th>
+            <th class="text-right">TOTAL: <%= number_to_currency(sum * -1) %></th>
+            <th class="text-right"><% unless @year_display == Date.today.year %>MONTHLY AVERAGE: <%= number_to_currency((sum * -1)/12) %><% end %></th>
+          </tr>
+        </thead>
 
-      <tbody class="collapse" id="<%= category %>">
-        <% @filtered_transactions.each do |transaction| %>
-          <% if transaction.category == category %>
-            <tr>
-              <td><%= best_in_place transaction, :posted_on, :as => :date, display_with: Proc.new { |el| el.strftime("%m/%d/%Y") } %></td>
-              <td><%= best_in_place transaction, :payee %></td>
-              <td><%= best_in_place transaction, :category %></td>
-              <td class="text-right"><%= number_to_currency(transaction.amount * -1) %></td>
-              <td>
-              <%= link_to "Delete", transaction, method: :delete, data: { confirm: "Are you sure?" } %>
-              <button class="btn btn-link p-0 mb-1 ml-2" type="button" data-toggle="collapse" data-target="#collapse<%= transaction.id %>" aria-expanded="false" aria-controls="collapse<%= transaction.id %>">Details</button>
-              </td>
-            </tr>
-            <tr class="collapse" id="collapse<%= transaction.id %>">
-              <td colspan="5">Note: <%= best_in_place transaction, :description %><br><img class="mw-100" src="<%= transaction.receipt %>"></td>
-            </tr>
+        <tbody class="collapse" id="<%= category.parameterize %>">
+          <% @filtered_transactions.each do |transaction| %>
+            <% if transaction.category == category %>
+              <tr>
+                <td><%= best_in_place transaction, :posted_on, :as => :date, display_with: Proc.new { |el| el.strftime("%m/%d/%Y") } %></td>
+                <td><%= best_in_place transaction, :payee %></td>
+                <td><%= best_in_place transaction, :category %></td>
+                <td class="text-right"><%= number_to_currency(transaction.amount * -1) %></td>
+                <td>
+                <%= link_to "Delete", transaction, method: :delete, data: { confirm: "Are you sure?" } %>
+                <button class="btn btn-link p-0 mb-1 ml-2" type="button" data-toggle="collapse" data-target="#collapse<%= transaction.id %>" aria-expanded="false" aria-controls="collapse<%= transaction.id %>">Details</button>
+                </td>
+              </tr>
+              <tr class="collapse" id="collapse<%= transaction.id %>">
+                <td colspan="5">Note: <%= best_in_place transaction, :description %><br><img class="mw-100" src="<%= transaction.receipt %>"></td>
+              </tr>
+            <% end %>
           <% end %>
-        <% end %>
-      </tbody>
+        </tbody>
+      <% end %>
     <% end %>
   </table>
 <% end %>
