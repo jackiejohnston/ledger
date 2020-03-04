@@ -9,7 +9,14 @@ class TransactionsController < ApplicationController
     @last_of_month = @first_of_month.end_of_month
     @month_url = @first_of_month.strftime("/%Y/%m")
     @month_display = @first_of_month.strftime("%B %Y")
-    @filtered_transactions = Transaction.where("posted_on BETWEEN ? AND ?", @first_of_month, @last_of_month).sort_by(&:posted_on).reverse
+    @year_display = params[:year]
+    if params[:year].present? && params[:month].present? || !params[:year].present? && !params[:month].present?
+      @filtered_transactions = Transaction.where("posted_on BETWEEN ? AND ?", @first_of_month, @last_of_month).sort_by(&:posted_on).reverse
+      @monthly_view = true
+    elsif params[:year].present?
+      @filtered_transactions = Transaction.where("cast(strftime('%Y', posted_on) as int) = ?", params[:year]).sort_by(&:category)
+      @yearly_view = true
+    end
     @payees = Transaction.distinct.pluck(:payee).sort
     @categories = Transaction.distinct.pluck(:category).sort
 

@@ -7,4 +7,8 @@ Rails.application.routes.draw do
     :contraints => { :year => /\d{4}/, :month => /\d{2}/ },
     :as => "transactions_date",
     via: [:get]
+  match "transactions/(:year)" => "transactions#index",
+    :contraints => { :year => /\d{4}/ },
+    :as => "transactions_year",
+    via: [:get]
 end
