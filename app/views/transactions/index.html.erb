@@ -1,4 +1,4 @@
-<h1 class="my-4 text-center">Ledger for <% if @monthly_view %><%= @month_display %><% elsif @yearly_view %><%= @year_display %><% end %></h1>
+<h1 class="my-4 text-center"><% if @monthly_view %>Ledger for <%= @month_display %><% elsif @yearly_view %><%= @year_display %> Transactions by Category<% end %></h1>
 <div class="col-sm-6 offset-sm-3 col-lg-4 offset-lg-4 col-xl-2 offset-xl-5 mb-4">
   <div class="dropdown">
     <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -13,16 +13,16 @@
   </div>
 </div>
 
-
-<div class="row">
-  <div class="col-sm-6">
-    <%= column_chart({"Deposits" => Transaction.where("amount > 0").where("posted_on BETWEEN ? AND ?", @first_of_month, @last_of_month).sum(:amount), "Withdrawals" => -1 * Transaction.where("amount < 0").where("posted_on BETWEEN ? AND ?", @first_of_month, @last_of_month).sum(:amount)}, prefix: "$", thousands: ",") %>
+<% if @monthly_view %>
+  <div class="row">
+    <div class="col-sm-6">
+      <%= column_chart({"Deposits" => Transaction.where("amount > 0").where("posted_on BETWEEN ? AND ?", @first_of_month, @last_of_month).sum(:amount), "Withdrawals" => -1 * Transaction.where("amount < 0").where("posted_on BETWEEN ? AND ?", @first_of_month, @last_of_month).sum(:amount)}, prefix: "$", thousands: ",") %>
+    </div>
+    <div class="col-sm-6">
+      <%= pie_chart Transaction.where("amount < 0").where("posted_on BETWEEN ? AND ?", @first_of_month, @last_of_month).group(:category).sum(:amount), prefix: "$", thousands: "," %>
+    </div>
   </div>
-  <div class="col-sm-6">
-    <%= pie_chart Transaction.where("amount < 0").where("posted_on BETWEEN ? AND ?", @first_of_month, @last_of_month).group(:category).sum(:amount), prefix: "$", thousands: "," %>
-  </div>
-</div>
-
+<% end %>
 
 <h2 class="h4 pt-4">Transactions</h2>
 
@@ -79,7 +79,13 @@
           </td>
         </tr>
         <tr class="collapse" id="collapse<%= transaction.id %>">
-          <td colspan="5">Note: <%= best_in_place transaction, :description %><br><img class="mw-100" src="<%= transaction.receipt %>"></td>
+          <td colspan="5">Note: <%= best_in_place transaction, :description %><br>
+            <% if transaction.receipt.include?(".pdf") %>
+              <a href="<%= transaction.receipt %>" target="_blank">PDF</a>
+            <% else %>
+              <img class="mw-100" src="<%= transaction.receipt %>">
+            <% end %>
+          </td>
         </tr>
       <% end %>
 
