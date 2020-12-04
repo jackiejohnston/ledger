@@ -80,11 +80,7 @@
         </tr>
         <tr class="collapse" id="collapse<%= transaction.id %>">
           <td colspan="5">Note: <%= best_in_place transaction, :description %><br>
-            <% if transaction.receipt.include?(".pdf") %>
-              <a href="<%= transaction.receipt %>" target="_blank">PDF</a>
-            <% else %>
-              <img class="mw-100" src="<%= transaction.receipt %>">
-            <% end %>
+
           </td>
         </tr>
       <% end %>
